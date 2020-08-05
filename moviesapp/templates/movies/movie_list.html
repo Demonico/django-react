@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static i18n %}
+{% block title %}{% trans 'Movies' %}{% endblock %} {% block content %}
+    <h3>{% trans 'Movies' %}</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col"><b>Title</b></th>
+            <th scope="col"><b>Director</b></th>
+            <th scope="col"><b>Rated</b></th>
+            <th scope="col"><b>Release Date</b></th>
+            <th colspan="2"><b>Action</b></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movie_list %}
+            <tr>
+                <td>
+                    <a href="{{ movie.get_absolute_url }}">{{ movie.title }}</a>
+                </td>
+                <td>{{ movie.director }}</td>
+                <td>{{ movie.rated }}</td>
+                <td>{{ movie.released_on }}</td>
+                <td><a href="{% url 'movies:update' movie.pk %}">Edit</a></td>
+                <td><a href="{% url 'movies:delete' movie.pk %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="6"><a href="{% url 'movies:create' %}">Add new movie</a></td>
+        </tr>
+        <tr>
+            <td colspan="6"><a href="{% url 'movies:rate' %}">Rate a movie.</a></td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock content %}
