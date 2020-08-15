@@ -2,13 +2,15 @@
 
 """Movies views."""
 
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
-from django.shortcuts import redirect
-from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
 
 from .models import Movie, Rating
+from .serializers import MovieSerializer, RatingSerializer
 
 
 class MovieListView(ListView):
@@ -110,3 +112,36 @@ class RatingListView(ListView):
 
     def get_queryset(self, **kwargs):
         return Rating.objects.filter(movie_id=self.kwargs.get('id'))
+
+
+class MovieViewSet(ModelViewSet):
+    """
+    API endpoint that allows movies to be viewed or edited
+    """
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+
+
+class RatingViewSet(ModelViewSet):
+    """
+    API endpoint that allows ratings to be viewed or edited
+    """
+    pass
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+
+    # def get_queryset(self):
+    #     queryset = Rating.objects.all()
+    #     filtered_set = queryset.filter(movie=self.request.query_params.get(2))
+    #     return filtered_set
+    # def list(self, request, *args, **kwargs):
+    #     queryset = Rating.objects.all()
+    #     serializer = RatingSerializer(queryset, many=True)
+    #     return Response(serializer.data)
+    #
+    #
+    # def retrieve(self, request, *args, **kwargs):
+    #     queryset = Rating.objects.all()
+    #     rating = get_object_or_404(queryset, movie__id=request)
+    #     serializer = RatingSerializer(rating)
+    #     return Response(serializer.data)

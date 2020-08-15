@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
 
 from . import views
 
+
+router = routers.DefaultRouter()
+router.register(r"api/ratings", views.RatingViewSet, basename='rating-list')
+router.register(r"api", views.MovieViewSet)
+
+
 app_name = 'movies'
 urlpatterns = [
+    path('', include(router.urls)),
     path('', view=views.MovieListView.as_view(), name='index'),
     path('create_rating/', view=views.RatingCreateView.as_view(), name='rate'),
     path('<int:id>/ratings/', view=views.RatingListView.as_view(), name='ratings'),
