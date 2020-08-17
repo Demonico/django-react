@@ -7,7 +7,7 @@ from .models import Movie, Rating
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['rating', 'comments']
+        fields = ['pk', 'rating', 'comments']
 
 
 class MovieSerializer(serializers.ModelSerializer):
