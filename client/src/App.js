@@ -7,6 +7,7 @@ import { useTheme } from '@material-ui/core/styles'
 import { OptionsContext } from './store/Theme'
 import movieService from './services/movieService'
 import MovieTable from './components/MovieTable'
+import Router from './components/Router'
 
 function App() {
   const [movieList, setMovieList] = useState([])
@@ -36,6 +37,7 @@ function App() {
           {theme.palette.type === 'light' ? <Brightness4 /> : <Brightness7 />}
         </IconButton>
       </Tooltip>
+      <Router />
       {movieList.length !== 0 && <MovieTable movieList={movieList} />}
     </Paper>
   )

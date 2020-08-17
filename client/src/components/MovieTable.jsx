@@ -68,6 +68,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'title', numeric: false, disablePadding: false, label: 'Movie Title' },
   { id: 'genre', numeric: false, disablePadding: false, label: 'Genre' },
+  { id: 'rated', numeric: false, disablePadding: false, label: 'Rated' },
   {
     id: 'released_on',
     numeric: true,
@@ -118,7 +119,6 @@ export default function MovieTable({ movieList }) {
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
   const [orderBy, setOrderBy] = React.useState('released_on')
-  // const [selected, setSelected] = React.useState([])
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -126,32 +126,21 @@ export default function MovieTable({ movieList }) {
     setOrderBy(property)
   }
 
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = movieList.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="movie table">
         <EnhancedTableHead
           classes={classes}
-          // numSelected={selected.length}
           order={order}
           orderBy={orderBy}
-          // onSelectAllClick={handleSelectAllClick}
           onRequestSort={handleRequestSort}
-          // rowCount={rows.length}
         />
         <TableBody>
           {stableSort(movieList, getComparator(order, orderBy)).map((movie) => (
             <TableRow key={movie.pk}>
               <TableCell>{movie.title}</TableCell>
               <TableCell>{movie.genre}</TableCell>
+              <TableCell>{movie.rated}</TableCell>
               <TableCell align="right">{movie.released_on}</TableCell>
               <TableCell>View</TableCell>
               <TableCell>Rate</TableCell>
@@ -162,24 +151,3 @@ export default function MovieTable({ movieList }) {
     </TableContainer>
   )
 }
-
-// {
-//   "pk": 1,
-//   "title": "Guardians of the Galaxy Vol. 2",
-//   "year": 2017,
-//   "rated": "PG-13",
-//   "released_on": "2017-05-05",
-//   "genre": "Action, Adventure, Comedy, Sci-Fi",
-//   "director": "James Gunn",
-//   "plot": "James Gunn, Dan Abnett (based on the Marvel comics by), Andy Lanning (based on the Marvel comics by), Steve Englehart (Star-Lord created by), Steve Gan (Star-Lord created by), Jim Starlin (Gamora and Drax created by), Stan Lee (Groot created by), Larry Lieber (Groot created by), Jack Kirby (Groot created by), Bill Mantlo (Rocket Raccoon created by), Keith Giffen (Rocket Raccoon created by), Steve Gerber (Howard the Duck created by), Val Mayerik (Howard the Duck created by)",
-//   "ratings": [
-//     {
-//       "rating": 4,
-//       "comments": "Hilarious"
-//     },
-//     {
-//       "rating": 3,
-//       "comments": "Second Test"
-//     }
-//   ]
-// }
