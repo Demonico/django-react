@@ -28,7 +28,9 @@ DJANGO_APPS = (
     # Admin
     'django.contrib.admin',
 )
-THIRD_PARTY_APPS = ()
+THIRD_PARTY_APPS = (
+    'corsheaders',
+)
 
 LOCAL_APPS = (
     'moviesapp.movies.apps.MoviesConfig',
@@ -39,12 +41,17 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
 
 MIGRATION_MODULES = {
     'sites': 'moviesapp.contrib.sites.migrations'
@@ -123,7 +130,6 @@ MEDIA_URL = '/media/'
 ROOT_URLCONF = 'config.urls'
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {
