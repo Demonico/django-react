@@ -1,8 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { Fragment, useContext, useState } from 'react'
 import { Link as Linkrr } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
+  Button,
   Link,
+  Modal,
   Paper,
   Table,
   TableBody,
@@ -15,6 +17,8 @@ import {
 
 // context imports
 import { movieContext } from '../store/MovieContext'
+
+import AddRating from './AddRating'
 
 // helpers
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 20,
     width: 1,
+  },
+  modal: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }))
 
@@ -124,7 +136,8 @@ export default function MovieTable() {
   const classes = useStyles()
   const [order, setOrder] = useState('asc')
   const [orderBy, setOrderBy] = useState('released_on')
-  const { movieList } = useContext(movieContext)
+  const [open, setOpen] = React.useState(false)
+  const { movieList, setSelectedMovie } = useContext(movieContext)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -132,32 +145,63 @@ export default function MovieTable() {
     setOrderBy(property)
   }
 
+  const handleOpen = (movieID) => {
+    setSelectedMovie(movieID)
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="movie table">
-        <EnhancedTableHead
-          classes={classes}
-          order={order}
-          orderBy={orderBy}
-          onRequestSort={handleRequestSort}
-        />
-        <TableBody>
-          {stableSort(movieList, getComparator(order, orderBy)).map((movie) => (
-            <TableRow key={movie.pk}>
-              <TableCell>{movie.title}</TableCell>
-              <TableCell>{movie.genre}</TableCell>
-              <TableCell>{movie.rated}</TableCell>
-              <TableCell align="right">{movie.released_on}</TableCell>
-              <TableCell>
-                <Link component={Linkrr} to={`/movie/${movie.pk}`}>
-                  View
-                </Link>
-              </TableCell>
-              <TableCell>Rate</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Fragment>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="movie table">
+          <EnhancedTableHead
+            classes={classes}
+            order={order}
+            orderBy={orderBy}
+            onRequestSort={handleRequestSort}
+          />
+          <TableBody>
+            {stableSort(movieList, getComparator(order, orderBy)).map(
+              (movie) => (
+                <TableRow key={movie.pk}>
+                  <TableCell>{movie.title}</TableCell>
+                  <TableCell>{movie.genre}</TableCell>
+                  <TableCell>{movie.rated}</TableCell>
+                  <TableCell align="right">{movie.released_on}</TableCell>
+                  <TableCell>
+                    <Link component={Linkrr} to={`/movie/${movie.pk}`}>
+                      View
+                    </Link>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      color="primary"
+                      onClick={() => handleOpen(movie.pk)}
+                    >
+                      Rate
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              )
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Modal open={open} onClose={handleClose}>
+        <div
+          style={{
+            top: '50%',
+            left: '50%',
+          }}
+          className={classes.modal}
+        >
+          <AddRating handleClose={handleClose} />
+        </div>
+      </Modal>
+    </Fragment>
   )
 }

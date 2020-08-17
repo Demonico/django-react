@@ -26,6 +26,10 @@ export default function MovieProvider({ children }) {
     }
   }, [selectedMovie])
 
+  const postRating = (ratingData) => {
+    movieService.postRating(ratingData)
+  }
+
   return (
     <movieContext.Provider
       value={{
@@ -35,6 +39,7 @@ export default function MovieProvider({ children }) {
         setSelectedMovie,
         movieDetails,
         setMovieDetails,
+        postRating,
       }}
     >
       {children}
