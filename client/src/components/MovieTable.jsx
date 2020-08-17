@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Paper,
@@ -10,6 +11,9 @@ import {
   TableRow,
   TableSortLabel,
 } from '@material-ui/core'
+
+// context imports
+import { movieContext } from '../store/MovieContext'
 
 // helpers
 const useStyles = makeStyles((theme) => ({
@@ -115,10 +119,11 @@ function EnhancedTableHead(props) {
   )
 }
 
-export default function MovieTable({ movieList }) {
+export default function MovieTable() {
   const classes = useStyles()
-  const [order, setOrder] = React.useState('asc')
-  const [orderBy, setOrderBy] = React.useState('released_on')
+  const [order, setOrder] = useState('asc')
+  const [orderBy, setOrderBy] = useState('released_on')
+  const { movieList } = useContext(movieContext)
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc'
@@ -142,7 +147,9 @@ export default function MovieTable({ movieList }) {
               <TableCell>{movie.genre}</TableCell>
               <TableCell>{movie.rated}</TableCell>
               <TableCell align="right">{movie.released_on}</TableCell>
-              <TableCell>View</TableCell>
+              <TableCell>
+                <Link to={`/movie/${movie.pk}`}>View</Link>
+              </TableCell>
               <TableCell>Rate</TableCell>
             </TableRow>
           ))}

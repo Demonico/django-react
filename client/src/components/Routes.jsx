@@ -5,14 +5,14 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import MovieDetail from './MovieDetail'
 import MovieTable from './MovieTable'
 
-export default function Router() {
+export default function Routes() {
   return (
     <Router>
       <Switch>
         <Route exact path="/">
           <MovieTable />
         </Route>
-        <Route path="/movie/:id">
+        <Route path="/movie/:movieID">
           <MovieDetail />
         </Route>
       </Switch>
