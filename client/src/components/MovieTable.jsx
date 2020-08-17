@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link as Linkrr } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import {
+  Link,
   Paper,
   Table,
   TableBody,
@@ -148,7 +149,9 @@ export default function MovieTable() {
               <TableCell>{movie.rated}</TableCell>
               <TableCell align="right">{movie.released_on}</TableCell>
               <TableCell>
-                <Link to={`/movie/${movie.pk}`}>View</Link>
+                <Link component={Linkrr} to={`/movie/${movie.pk}`}>
+                  View
+                </Link>
               </TableCell>
               <TableCell>Rate</TableCell>
             </TableRow>

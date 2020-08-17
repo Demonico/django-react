@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { blue, deepPurple } from '@material-ui/core/colors'
+import { green, purple } from '@material-ui/core/colors'
 
 export const OptionsContext = React.createContext({ type: 'dark' })
 
 const themeBase = {
   palette: {
-    primary: blue,
-    secondary: deepPurple,
+    primary: green,
+    secondary: purple,
     type: 'dark',
   },
 }

@@ -12,7 +12,7 @@ export default function MovieProvider({ children }) {
   useEffect(() => {
     if (movieList.length === 0) {
       movieService.getMoviesList().then((res) => {
-        console.log(res)
+        // console.log(res)
         setMovieList(res)
       })
     }
